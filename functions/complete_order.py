@@ -1,2 +1,1 @@
-def complete_order():
-    pass
+def complete_order(userid,product_list):
