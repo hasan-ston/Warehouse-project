@@ -4,10 +4,15 @@ from functions import customer_summary, complete_order, authenticate, lookup_pro
 def main():
     print(f"Welcome!")
     userid = input("Enter your id: ")
+
+    user_input = input("Would you like to fill an order? (y/n): ").lower()
+        if user_input == "n":
+            break
+    
     while not authenticate(userid):
         print("Invalid ID. Please try again.")
         userid = input("Enter your id: ")
-
+        
     product_list = []
 
     while True:
@@ -19,12 +24,7 @@ def main():
 
         else:
             print("No products found.")
-
-        user_input = input("Would you like to continue? (y/n): ").lower()
-        if user_input == "n":
-            break
-
-
+        
     pack_products(product_list)
     complete_order(userid, product_list)
     customer_summary(userid)
