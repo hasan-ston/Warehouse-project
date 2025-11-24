@@ -8,24 +8,10 @@ def main():
 
   while not lookup_products(scan_barcode()):
     lookup_products(scan_barcode())
-    
-    
-
-  pack_products(lookup_products(scan_barcode()))
-
-  
-    
-    
-    
-  
-  
-    
-    
+  pack_products(lookup_products(scan_barcode())
   
   print(scan(barcode))
   print
-
-
 
 # Other Team's Code
 # !/usr/bin/env python3
@@ -202,11 +188,9 @@ def complete_order(userid, product_list):
     for name, price in product_list:
         subtotal += price
 
-
     discount_percent = random.randint(5, 50)
     discount_amount = subtotal * (discount_percent / 100)
-
-
+  
     tax_rate = 0.13
     tax_amount = (subtotal - discount_amount) * tax_rate
 
@@ -246,7 +230,6 @@ def complete_order(userid, product_list):
         parts = line.strip().split(",")
         if parts[0] == userid:
             orders_count += 1
-
 
     print(f"\nYou have placed {orders_count} order(s) so far.\n")
 
@@ -293,8 +276,7 @@ def pack_products(products):
         arm.home()
         arm.set_arm_position([0.21161152424323046, -0.2666089332338263, 0.13969975241913885])
         arm.rotate_gripper(-60)
-
-
+      
 print("Welcome!")
 #userid = authenticate()
 keep_ordering = input("Enter N to quit. Enter anything else to make another order")
@@ -306,37 +288,7 @@ while keep_ordering.upper() != "N":
     keep_ordering = input("Enter N to quit. Enter anything else to make another order")
 #customer_summary(userid)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# ---------------------------------------------------------------------------------
-# STUDENT CODE ENDS
-# ---------------------------------------------------------------------------------
-
 arm.end_arm_connection()
-
-
-# ---------------------------------------------------------------------------------
-# Q-Arm Base code
-
 arm.home()
 sleep(1)
 arm.rotate_base(30)
@@ -344,15 +296,6 @@ sleep(1)
 arm.rotate_elbow(30)
 sleep(1)
 arm.rotate_shoulder(15)
-
-
-
-
-
-
-
-
-# ---------------------------------------------------------------------------------
-#STUDENT CODE ENDS
 arm.end_arm_connection()
+
 
