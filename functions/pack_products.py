@@ -1,17 +1,26 @@
 from time import sleep
-from library.quanser import QuanserInteractiveLabs_2DOF
+
+try:
+    from Common.qarm_interface_wrapper import QuanserInteractiveLabs_2DOF
+except ImportError:
+    QuanserInteractiveLabs_2DOF = None
 
 
 def pack_products(product_list):
-    arm = QuanserInteractiveLabs_2DOF()
-    arm.start_arm_connection()
+
+    if QuanserInteractiveLabs_2DOF:
+        arm = QuanserInteractiveLabs_2DOF()
+        arm.start_arm_connection()
+    else:
+        arm = None
+        print("Q-Arm hardware not available - running in simulation mode")
 
     for product in product_list:
         product_name = product[0]
         current = product_name.strip().lower()
+
         print(f"\nPacking {current}...")
 
-        # Check which product and execute sequence
         if 'sponge' in current:
             if arm:
                 arm.rotate_gripper(180)
@@ -23,7 +32,6 @@ def pack_products(product_list):
                 arm.rotate_gripper(80)
                 arm.rotate_shoulder(-50)
 
-                # Parcel drop
                 arm.home()
                 arm.rotate_base(-52)
                 sleep(1)
@@ -35,7 +43,7 @@ def pack_products(product_list):
 
                 arm.home()
             else:
-                print(" Executing Sponge packing sequence") # for testing; REMOVE THIS
+                print("  [Simulation] Executing Sponge packing sequence")
 
         elif 'bottle' in current:
             if arm:
@@ -48,7 +56,6 @@ def pack_products(product_list):
                 arm.rotate_gripper(80)
                 arm.rotate_shoulder(-46)
 
-                # Parcel drop
                 arm.home()
                 arm.rotate_base(-52)
                 sleep(1)
@@ -60,12 +67,13 @@ def pack_products(product_list):
 
                 arm.home()
             else:
-                print("Executing Bottle packing sequence") # Remove this
+                print("  [Simulation] Executing Bottle packing sequence")
 
         elif 'rook' in current:
             if arm:
                 arm.rotate_gripper(180)
                 arm.rotate_gripper(-35)
+
                 arm.rotate_base(5)
                 arm.rotate_elbow(-8)
                 arm.rotate_shoulder(46)
@@ -80,9 +88,10 @@ def pack_products(product_list):
                 arm.rotate_shoulder(20)
                 sleep(1)
                 arm.rotate_gripper(-50)
+
                 arm.home()
             else:
-                print("Executing Rook packing sequence")
+                print("  [Simulation] Executing Rook packing sequence")
 
         elif 'd12' in current:
             if arm:
@@ -95,7 +104,6 @@ def pack_products(product_list):
                 arm.rotate_gripper(70)
                 arm.rotate_shoulder(-45)
 
-                # Parcel drop
                 arm.home()
                 arm.rotate_base(-52)
                 sleep(1)
@@ -107,9 +115,9 @@ def pack_products(product_list):
 
                 arm.home()
             else:
-                print("Executing D12 packing sequence")
+                print("  [Simulation] Executing D12 packing sequence")
 
-        elif 'witch' in current:
+        elif 'bowl' in current:
             if arm:
                 arm.rotate_gripper(180)
                 arm.rotate_gripper(-25)
@@ -120,7 +128,6 @@ def pack_products(product_list):
                 arm.rotate_gripper(75)
                 arm.rotate_shoulder(-43)
 
-                # Parcel drop
                 arm.home()
                 arm.rotate_base(-52)
                 sleep(1)
@@ -132,12 +139,12 @@ def pack_products(product_list):
 
                 arm.home()
             else:
-                print("Executing Bowl packing sequence")
+                print("  [Simulation] Executing Bowl packing sequence")
 
-        elif 'bowl' in current:
+        elif 'witch' in current or 'hat' in current:
             if arm:
                 arm.rotate_gripper(180)
-                arm.rotate_gripper(-35)
+                arm.rotate_gripper(-30)
 
                 arm.rotate_base(-11)
                 arm.rotate_elbow(-5)
@@ -152,9 +159,10 @@ def pack_products(product_list):
                 arm.rotate_shoulder(20)
                 sleep(1)
                 arm.rotate_gripper(-50)
+
                 arm.home()
             else:
-                print("Executing WitchHat packing sequence")
+                print("  [Simulation] Executing WitchHat packing sequence")
 
         else:
             print(f"Warning: No packing sequence defined for '{product_name}'")
