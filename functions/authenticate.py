@@ -10,17 +10,17 @@ def authenticate():
     # Try to load users
     users = []
     try:
-        with open(user_file, "r") as f:
+        with open(user_file, "r") as f: # f is a variable name
             for line in f:
-                line = line.strip()
-                if line == "":
+                line = line.strip() # remove '\n' and white spaces
+                if line == "": # if there are empty lines, skip over them
                     continue
-                parts = line.split(",")
+                parts = line.split(",") # split the line by commas
                 if len(parts) >= 2:
-                    users.append(parts)
+                    users.append(parts) # new row
     except:
         # No users/files
-        users = []
+        users = [] # remains empty
 
     # No user account
     if len(users) == 0:
@@ -48,18 +48,19 @@ def authenticate():
             for row in users:
                 if row[0] == userid:
                     found = True
-                    stored_hash = row[1]
+                    stored_hash = row[1] # 2nd column
 
-                    if bcrypt.checkpw(password.encode("utf-8"), stored_hash.encode("utf-8")):
+                    #This takes users pswd converts to bytes, takes the stored hash converts to bytes, and compares the two
+                    if bcrypt.checkpw(password.encode("utf-8"), stored_hash.encode("utf-8")): # returns True or False based on if the pswd matches
                         print("Login successful!\n")
                         return userid
                     break
 
-            attempts += 1
+            attempts += 1 # Only after an unsuccessful login attempt does it increment attempts
 
-            if not found:
+            if not found: # user doesnt exist
                 print("User not found.")
-            else:
+            else: # user exists, but pswd is wrong
                 print("Password incorrect.")
 
             left = max_attempts - attempts

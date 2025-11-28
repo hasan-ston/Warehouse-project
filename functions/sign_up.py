@@ -11,11 +11,11 @@ def sign_up():
         with open(users_file, "r") as f:
             for line in f:
                 line = line.strip()
-                if line == "":
+                if line == "": # skip empty rows
                     continue
-                parts = line.split(",")
+                parts = line.split(",") # split by comma
                 if len(parts) >= 1:
-                    existing_ids.append(parts[0])
+                    existing_ids.append(parts[0]) # Only require userID
     except:
         # file/users don't exist
         pass
@@ -25,7 +25,7 @@ def sign_up():
     userid = input("Enter user ID: ").strip()
     if userid == "":
         print("Enter valid user ID")
-        return None
+        return None # authenticate() is responsible for looping
 
     if userid in existing_ids:
         print("User ID already exists")
@@ -48,7 +48,7 @@ def sign_up():
     has_digit = False
     has_symbol = False
 
-    for c in password:
+    for c in password: # looping through each character
         if c.isupper():
             has_upper = True
         elif c.islower():
@@ -63,7 +63,7 @@ def sign_up():
         print(f"Allowed symbols: {SYMBOLS}")
         return None
 
-    # Hash password
+    # Hashed password(password + random salt). Decode converts bytes to string so it can be stored in CSV
     hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
     # Append new user
