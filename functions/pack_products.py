@@ -1,7 +1,7 @@
 from time import sleep
 
 try:
-    from Common.qarm_interface_wrapper import QuanserInteractiveLabs_2DOF
+    from Common.qarm_interface_wrapper import *
 except ImportError:
     QuanserInteractiveLabs_2DOF = None
 
@@ -15,11 +15,11 @@ def pack_products(product_list):
         arm = None
         print("Q-Arm hardware not available - running in simulation mode")
 
-    for product in product_list:
-        product_name = product[0]
+    for item in product_list:
+        product_name = item[0]
         current = product_name.strip().lower()
 
-        print(f"\nPacking {current}...")
+        print(f"Packing {current}...")
 
         if 'sponge' in current:
             if arm:

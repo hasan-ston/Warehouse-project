@@ -54,14 +54,14 @@ def authenticate():
                     if bcrypt.checkpw(password.encode("utf-8"), stored_hash.encode("utf-8")): # returns True or False based on if the pswd matches
                         print("Login successful!\n")
                         return userid
+
+                    print("Incorrect password.")
                     break
 
             attempts += 1 # Only after an unsuccessful login attempt does it increment attempts
 
             if not found: # user doesnt exist
                 print("User not found.")
-            else: # user exists, but pswd is wrong
-                print("Password incorrect.")
 
             left = max_attempts - attempts
             if left > 0:
