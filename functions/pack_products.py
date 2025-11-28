@@ -9,7 +9,6 @@ def pack_products(product_list):
     for product in product_list:
         product_name = product[0]
         current = product_name.strip().lower()
-
         print(f"\nPacking {current}...")
 
         # Check which product and execute sequence

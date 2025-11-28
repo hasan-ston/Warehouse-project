@@ -1,7 +1,4 @@
-from functions import customer_summary, complete_order, authenticate, lookup_products, pack_products,sign_up
-
 import sys
-from time import sleep
 sys.path.append("../")
 
 from functions import authenticate, lookup_products, pack_products, complete_order, customer_summary
