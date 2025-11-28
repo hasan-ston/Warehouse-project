@@ -392,7 +392,6 @@ def customer_summary(userid):
     print("="*50)
     print("Customer Summary Complete.\n")
 
-
 # MAIN
 
 def main():
