@@ -141,21 +141,24 @@ def lookup_products(products):
     items = [p.strip() for p in items]
 
     matched = []
-    with open("products.csv", "r") as filename:
+    with open("products.csv","r") as filename:
         lines = filename.readlines()
 
     for item in items:
         found = False
 
+
         for line in lines:
-            if item.lower() in line.lower():
+            parts = line.strip().split(",")
+            name = parts[0]
+            if item.lower() == name.lower():
                 parts = line.strip().split(",")
-                name = parts[0].strip()
+                name = parts[0]
                 try:
                     price = float(parts[1])
                 except:
                     price = None
-                matched.append([name, price])
+                matched.append([name,price])
                 found = True
                 break
 
