@@ -1,23 +1,6 @@
-#from Common.qarm_interface_wrapper import QArmInterface, BarcodeScanner
+from Common.qarm_interface_wrapper import QArmInterface, BarcodeScanner
 from time import sleep
 import bcrypt
-try:
-    from Common.qarm_interface_wrapper import QArmInterface, BarcodeScanner
-except ImportError:
-    class QArmInterface:
-        def __init__(self, grip): pass
-        def home(self): pass
-        def rotate_base(self, x): pass
-        def rotate_elbow(self, x): pass
-        def rotate_shoulder(self, x): pass
-        def rotate_gripper(self, x): pass
-        def end_arm_connection(self): pass
-
-    class BarcodeScanner:
-        @staticmethod
-        def scan_barcode():
-            return input("[SCAN] Enter product: ")
-
 
 scan_barcode = BarcodeScanner.scan_barcode
 # SIGN UP
