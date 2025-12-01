@@ -3,7 +3,6 @@ from time import sleep
 import bcrypt
 
 scan_barcode = BarcodeScanner.scan_barcode
-# SIGN UP
 
 SYMBOLS = "!.@#$%^&*()_[]"
 
