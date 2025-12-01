@@ -1,6 +1,23 @@
-from Common.qarm_interface_wrapper import QArmInterface, BarcodeScanner
+#from Common.qarm_interface_wrapper import QArmInterface, BarcodeScanner
 from time import sleep
 import bcrypt
+try:
+    from Common.qarm_interface_wrapper import QArmInterface, BarcodeScanner
+except ImportError:
+    class QArmInterface:
+        def __init__(self, grip): pass
+        def home(self): pass
+        def rotate_base(self, x): pass
+        def rotate_elbow(self, x): pass
+        def rotate_shoulder(self, x): pass
+        def rotate_gripper(self, x): pass
+        def end_arm_connection(self): pass
+
+    class BarcodeScanner:
+        @staticmethod
+        def scan_barcode():
+            return input("[SCAN] Enter product: ")
+
 
 scan_barcode = BarcodeScanner.scan_barcode
 # SIGN UP
@@ -95,34 +112,35 @@ def authenticate():
     if have != "y":
         return sign_up()
 
-    attempts = 0
-    max_attempts = 3
-    while attempts < max_attempts:
-        userid = input("User ID: ").strip()
-        password = input("Password: ").strip()
+    while True:
+        attempts = 0
+        max_attempts = 3
+        while attempts < max_attempts:
+            userid = input("User ID: ").strip()
+            password = input("Password: ").strip()
 
-        found = False
+            found = False
 
-        for row in users:
-            if row[0] == userid:
-                found = True
-                stored_hash = row[1]
+            for row in users:
+                if row[0] == userid:
+                    found = True
+                    stored_hash = row[1]
 
-                # This takes users pswd converts to bytes, takes the stored hash converts to bytes, and compares the two
-                if bcrypt.checkpw(password.encode(), stored_hash.encode()): # returns True or False based on if the pswd matches
-                    print("Login successful.\n")
-                    return userid
+                    # This takes users pswd converts to bytes, takes the stored hash converts to bytes, and compares the two
+                    if bcrypt.checkpw(password.encode(), stored_hash.encode()): # returns True or False based on if the pswd matches
+                        print("Login successful.\n")
+                        return userid
 
-                print("Incorrect password.")
-                break
+                    print("Incorrect password.")
+                    break
 
-        if not found: # user doesnt exist
-            print("User not found.")
+            if not found: # user doesnt exist
+                print("User not found.")
 
-        attempts += 1 # Only after an unsuccessful login attempt does it increment attempts
-        left = max_attempts - attempts
-        if left > 0:
-            print(f"{left} attempt(s) left.")
+            attempts += 1 # Only after an unsuccessful login attempt does it increment attempts
+            left = max_attempts - attempts
+            if left > 0:
+                print(f"{left} attempt(s) left.")
 
         print("Exceeded max attempts.")
         action = input("retry / signup / exit: ").lower().strip()
@@ -137,36 +155,34 @@ def authenticate():
 # LOOKUP PRODUCTS
 
 def lookup_products(products):
-    items = products.split(",")
-    items = [p.strip() for p in items]
+    items = [p.strip() for p in products.split(",")]
 
     matched = []
-    with open("products.csv","r") as filename:
-        lines = filename.readlines()
+
+    with open("products.csv", "r") as f:
+        lines = f.readlines()
 
     for item in items:
         found = False
 
-
         for line in lines:
             parts = line.strip().split(",")
             name = parts[0]
+
             if item.lower() == name.lower():
-                parts = line.strip().split(",")
-                name = parts[0]
                 try:
                     price = float(parts[1])
                 except:
                     price = None
-                matched.append([name,price])
+
+                matched.append([name, price])
                 found = True
                 break
 
         if not found:
-            print("The product was not found in file")
+            print(f"Product '{item}' not found in file.")
 
     return matched
-
 
 # PACK PRODUCTS
 
@@ -287,7 +303,7 @@ def pack_products(product_list):
 
             arm.home()
 
-        elif 'witch' in current or 'hat' in current:
+        elif 'witchhat' in current:
             arm.rotate_gripper(180)
             arm.rotate_gripper(-30)
 
@@ -419,7 +435,8 @@ def main():
 
     keep_ordering = True
     while keep_ordering:
-        barcode_data = scan_barcode()
+        #barcode_data = scan_barcode()
+        barcode_data = input("Enter product name(s): ")
 
         if not barcode_data:
             print("Please scan again.")
