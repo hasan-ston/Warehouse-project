@@ -418,14 +418,13 @@ def main():
 
     keep_ordering = True
     while keep_ordering:
-        #barcode_data = scan_barcode()
-        barcode_data = input("Enter product name(s): ")
+
+        barcode_data = scan_barcode()
 
         if not barcode_data:
             print("Please scan again.")
             continue
 
-        # Look up products from barcode scan
         products = lookup_products(barcode_data)
 
         if products:
@@ -435,12 +434,10 @@ def main():
         else:
             print("No valid products found from scan.")
 
-        # does the user want to continue?
         continue_input = input("\nScan another barcode? (y/n): ").lower().strip()
         if continue_input != 'y':
             keep_ordering = False
 
-    # Process order if products were scanned
     if not product_list:
         print("\nNo products in order. Exiting system.")
         return
@@ -452,5 +449,6 @@ def main():
     pack_products(product_list)
     complete_order(userid, product_list)
     customer_summary(userid)
+
 
 main()
