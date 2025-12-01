@@ -7,6 +7,15 @@ scan_barcode = BarcodeScanner.scan_barcode
 SYMBOLS = "!.@#$%^&*()_[]"
 
 def sign_up():
+    '''
+    Creates a new warehouse account with a unique userid and a secure password. Checks password requirements, encrypts the password using bcrypt hashing, and
+        writes the new userid and encrypted password to users.csv. It also rejects duplicate userids and passwords that do not meet security requirements.
+    Parameters: None
+    Input: User-entered userid and password and users.csv file contents (for checking existing userids)
+    Output: Writes a new line to users.csv in the format: userid,encrypted_password. Prints success or error messages to the console.
+    Return Value: None
+    Written by: Muhammad Hasan (hasanm69)
+    '''
     filename = "users.csv"
 
     # Load existing IDs
@@ -70,6 +79,15 @@ def sign_up():
 # AUTHENTICATION
 
 def authenticate():
+    '''
+    Description: Logs the user into the warehouse system. If the user has no account, the function calls sign_up(). To authenticate, it compares the userid and an
+        encrypted password in users.csv using bcrypt.
+    Parameters: None
+    Input: User-entered login credentials; users.csv file contents.
+    Output: Printed success or failure messages based on the user's input
+    Return Value: userid (string) when authentication is successful
+    Written by: Muhammad Hasan(hasanm69)
+    '''
     print("\n--- Login ---")
     user_file = "users.csv"
 
@@ -137,6 +155,15 @@ def authenticate():
 # LOOKUP PRODUCTS
 
 def lookup_products(products):
+    '''
+    Description: This function is used to read from the products.csv file and create a list of products that are available. Skips products not
+        found in the file and prints a warning message for each missing product.
+    Parameters: products - String . A comma separated list of product names.
+    Input: products.csv file contents.
+    Outputs: Warning message when product not found
+    Return: 2D list of products in the format: ([[name, price], ...])
+    Written by: Abdullah makhdoom(makhdooa)
+    '''
     items = [p.strip() for p in products.split(",")]
 
     matched = []
@@ -162,13 +189,22 @@ def lookup_products(products):
                 break
 
         if not found:
-            print(f"Product '{item}' not found in file.")
+            print(f"Warning! Product '{item}' not found in file.")
 
     return matched
 
 # PACK PRODUCTS
 
 def pack_products(product_list):
+    '''
+    Executes the packing sequence on the QArm for each product scanned.
+    Parameters: product_list. list[list] where each element contains the product name(str), and price(flaot)
+    Input: None
+    Outputs: Prints a warning or successful message based on user inputs
+    Return: None
+    Written by: Muhammad Hasan(hasanm69), Abdullah makhdoom(makhdooa), Ciara Doody(doodyc), Maggie Seto(setom11)
+    '''
+
     arm = QArmInterface(1)
     arm.home()
 
@@ -319,6 +355,14 @@ def pack_products(product_list):
 import random
 
 def complete_order(userid, product_list):
+    '''
+    Calculates subtotal, discount, tax, total cost, prints a formatted receipt, and records the order in orders.csv.
+    Parameters: userid:str <- ID of the current user, product_list: list[list] <- Ordered products with their prices.
+    Input: None
+    Output: Prints the full receipt including items, prices, discount, tax, and final total.
+    Return: None
+    Written by: Maggie Seto (setom11)
+    '''
     subtotal=0
     for name,price in product_list:
         subtotal += price
@@ -360,6 +404,14 @@ def complete_order(userid, product_list):
 import csv
 
 def customer_summary(userid):
+    '''
+    Generates a summary of all past orders by the user including total orders, total spent, and counts of each product.
+    Parameters: userid:str <- ID of the current user
+    Input: orders.csv file contents
+    Output: Prints a formatted customer summary table.
+    Return: None
+    Written by: Ciara Doody (doodyc)
+    '''
 
     with open ("orders.csv", "r") as file:
         reader = csv.reader(file)
@@ -396,6 +448,16 @@ def customer_summary(userid):
 # MAIN
 
 def main():
+    '''
+    Calls all the functions at their appropriate times. Handles authentication, scanning products, packing items with QArm, completing the order,
+        and showing the final customer summary.
+    Parameters: None
+    Input: User input -> Barcode Scanner input
+    Output: - Printed messages for authentication, scanning, packing, invoices, and customer
+          summaries.
+        - Q-Arm actions during product packing.
+    Return: None
+    '''
     print("-" * 60)
     print(" " * 10 + "Warehouse Processing System")
     print(" " * 8 + "Design Studio - 1P13 Project")
