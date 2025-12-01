@@ -18,7 +18,6 @@ def customer_summary(userid):
         for product in order[2:]:
             product_counts[product] = product_counts.get(product, 0) + 1
 
-    # Add some colour
     print("\n" + "="*55)
     print(f" 📦 Summary of Orders for {userid} 📦 ".center(55))
     print("="*55)
