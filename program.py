@@ -456,6 +456,8 @@ def customer_summary(userid):
     print("-"*55)
     print(f"{'Product':<35}{'Amount Ordered':>10}")
     print("-"*55)
+    # < means left alined among 55 character spaces
+    # > right aligned
 
     for product, count in product_counts.items():
         # for each key value pair. accesses product and value
