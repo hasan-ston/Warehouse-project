@@ -445,7 +445,8 @@ def customer_summary(userid):
             # loops  through that list of products
             product_counts[product] = product_counts.get(product, 0) + 1
             # .get checks if the key, the product exists in the dictionary    
-            # 
+            # if product exists, returns value (count). if not, returns 0
+            # adds 1 to the count value and updates dictionary
     
     print("\n" + "="*55)
     print(f" 📦 Summary of Orders for {userid} 📦 ".center(55))
