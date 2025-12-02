@@ -175,7 +175,7 @@ def lookup_products(products):
         found = False
 
         for line in lines:
-            parts = line.strip().split(",")
+            parts = line.strip().split() #might be ,
             name = parts[0]
 
             if item.lower() == name.lower():
