@@ -458,7 +458,10 @@ def customer_summary(userid):
     print("-"*55)
 
     for product, count in product_counts.items():
+        # for each key value pair. accesses product and value
+        # .items() loops through both the product and value
         print(f"{product:<30}{count:>10}")
+        # print each pair for the loop
 
     print("="*50)
     print("Customer Summary Complete.\n")
