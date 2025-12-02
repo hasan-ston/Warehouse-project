@@ -414,20 +414,38 @@ def customer_summary(userid):
     '''
 
     with open ("orders.csv", "r") as file:
+        # opens orders.csv as a file in read mode
+        # csv.reader is the command
+        # reader is just the variable name
         reader = csv.reader(file)
         orders = [row for row in reader if row[0] == userid]
+        # reads every row in the file
+        # checks that the first column is the correct userid
+        # orders is a list of orders for the user
+        # it's a list of lists that has a list for each row (order) within it
 
     if not orders:
+        # checks if orders list is empty
         print(f"No orders found for {userid}.")
         return None
 
     total_orders = len(orders)
+    # number of orders is the length of the list of rows
     total_spent = sum(float(order[1]) for order in orders)
+    # total spent is the sum of the second entry in each list, which is the price of each product from the orders file
 
     product_counts = {}
+    # empty dictionary - key and value, like a word and definition. key is product name, value is number of times it appears
+    # number of times it appears is attached to the key
+    
     for order in orders:
+        # loops through each order in the list
         for product in order[2:]:
+            # starts at the third entry in each order list, which is the list of products
+            # loops  through that list of products
             product_counts[product] = product_counts.get(product, 0) + 1
+            # .get checks if the key, the product exists in the dictionary    
+            # 
     
     print("\n" + "="*55)
     print(f" 📦 Summary of Orders for {userid} 📦 ".center(55))
