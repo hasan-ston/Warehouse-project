@@ -26,10 +26,10 @@ This system handles user authentication, product scanning, robotic arm packing o
 
 ## Team
 
-- Muhammad Hasan (hasanm69) - Authentication, packing sequences
-- Abdullah Makhdoom (makhdooa) - Product lookup, packing sequences
-- Ciara Doody (doodyc) - Customer summary, packing sequences
-- Maggie Seto (setom11) - Order completion, packing sequences
+- Muhammad Hasan - Authentication, packing sequences
+- Abdullah Makhdoom - Product lookup, packing sequences
+- Ciara Doody - Customer summary, packing sequences
+- Maggie Seto - Order completion, packing sequences
 
 ## File Structure
 
